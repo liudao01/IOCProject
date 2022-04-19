@@ -1,55 +1,63 @@
 package com.demo.ioc_project;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.demo.ioc_project.di.Presenter;
 import com.demo.ioc_project.object.HttpObject;
 
 import javax.inject.Inject;
 
+
 public class MainActivity extends AppCompatActivity {
 
-    String TAG = "MainActivity";
-    //注入后直接用
     @Inject
-    HttpObject httpObject;
+    HttpObject httpObject;//= new HttpObject()
     @Inject
     HttpObject httpObject2;
-    private TextView tvTest;
-    private Button button;
 
+    @Inject
+    Presenter presenter;
+    @Inject
+    Presenter presenter2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        tvTest = findViewById(R.id.tv_test);
-        button = findViewById(R.id.button);
+//        DaggerMyComponent.create().injectMainActivity(this);
 
-        button.setOnClickListener((view -> {
-            startActivity(new Intent(this, SecActivity.class));
-        }));
-//        DaggerMyComponent.create().inject(this);
 //        DaggerMyComponent.builder()
+//                .httpModule(new HttpModule())
+//                .databaseModule(new DatabaseModule())
 //                .build()
-//                .inject(this);
+//                //到这里，初始化了module和component
+//                .injectMainActivity(this);
 
-        //通过统一创建Component
-        MyApplication.getInstance().getAppComponent().inject(this);
+        ((MyApplication)getApplication())
+                .getAppComonent()
+                .injectMainActivity(this);
 
+        Log.i("jett",httpObject.hashCode()+"");
+        Log.i("jett",httpObject2.hashCode()+"");
 
-        httpObject.post();
-        Log.d(TAG, "onCreate: httpObject " + httpObject.hashCode());
-        Log.d(TAG, "onCreate: httpObject2 " + httpObject2.hashCode());
+        Log.i("jett",presenter.hashCode()+"");
+        Log.i("jett",presenter2.hashCode()+"");
+    }
 
-
-
-
+    public void click(View view) {
+        startActivity(new Intent(this, SecActivity.class));
     }
 }
+
+
+
+
+
+
+
+

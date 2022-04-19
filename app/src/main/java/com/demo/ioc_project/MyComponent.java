@@ -1,22 +1,19 @@
 package com.demo.ioc_project;
 
-import com.demo.ioc_project.module.DataModule;
-import com.demo.ioc_project.module.HttpModule;
 
-import javax.inject.Singleton;
+import com.demo.ioc_project.di.PresenterComponent;
+import com.demo.ioc_project.scope.AppScope;
 
 import dagger.Component;
 
 /**
- * Created by liuml on 2022/4/14 10:50
- * 组件 用来放module的 需要那些module
+ * 组件
  */
-@Singleton
-@Component(modules = {HttpModule.class, DataModule.class})
+@AppScope
+@Component(modules = {HttpModule.class, DatabaseModule.class}
+        ,dependencies = {PresenterComponent.class})
 public interface MyComponent {
-    //这里的参数不能用多态
-    void inject(MainActivity activity);
-
+    //这里的参数是不能用多态
+    void injectMainActivity(MainActivity activity);
     void injectSecActivity(SecActivity activity);
-
-} 
+}

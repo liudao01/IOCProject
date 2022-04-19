@@ -1,24 +1,29 @@
-package com.demo.ioc_project.module;
+package com.demo.ioc_project;
+
 
 import com.demo.ioc_project.object.HttpObject;
-
-import javax.inject.Singleton;
+import com.demo.ioc_project.scope.AppScope;
 
 import dagger.Module;
 import dagger.Provides;
 
 /**
- * Created by liuml on 2022/4/14 10:48
- *
  * 这个类用来提供对象
  */
-
+@AppScope
 @Module
 public class HttpModule {
 
+    @AppScope
     @Provides
-    @Singleton
     public HttpObject providerHttpObject(){
         return new HttpObject();
     }
-} 
+}
+
+
+
+
+
+
+

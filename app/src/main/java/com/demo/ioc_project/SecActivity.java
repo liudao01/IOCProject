@@ -1,27 +1,35 @@
 package com.demo.ioc_project;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.util.Log;
 
-import com.demo.ioc_project.module.HttpModule;
+import androidx.appcompat.app.AppCompatActivity;
+
+
+import com.demo.ioc_project.object.HttpObject;
 
 import javax.inject.Inject;
 
 public class SecActivity extends AppCompatActivity {
 
-    private String TAG = "SecActivity";
-//    @Inject
-//    HttpModule httpModule;
+    @Inject
+    HttpObject httpObject;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sec);
+//        DaggerMyComponent.builder()
+//                .httpModule(new HttpModule())
+//                .databaseModule(new DatabaseModule())
+//                .build()
+//                //到这里，初始化了module和component
+//                .injectSecActivity(this);
 
-        MyApplication.getInstance().getAppComponent().injectSecActivity(this);
+        ((MyApplication)getApplication())
+                .getAppComonent()
+                .injectSecActivity(this);
 
-//        Log.d(TAG, "onCreate: httpModule = "+httpModule.hashCode());
+        Log.i("jett",httpObject.hashCode()+"-sec");
     }
 }
