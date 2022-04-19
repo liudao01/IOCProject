@@ -2,9 +2,11 @@ package com.demo.ioc_project;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.demo.ioc_project.object.HttpObject;
@@ -20,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     @Inject
     HttpObject httpObject2;
     private TextView tvTest;
+    private Button button;
 
 
     @Override
@@ -27,21 +30,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         tvTest = findViewById(R.id.tv_test);
+        button = findViewById(R.id.button);
 
-        DaggerMyComponent.create().inject(this);
-        DaggerMyComponent.builder()
-                .build()
-                .inject(this);
+        button.setOnClickListener((view -> {
+            startActivity(new Intent(this, SecActivity.class));
+        }));
+//        DaggerMyComponent.create().inject(this);
+//        DaggerMyComponent.builder()
+//                .build()
+//                .inject(this);
 
-        tvTest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DaggerMyComponent.builder()
-                        .build()
-                        .inject(MainActivity.this);
-
-            }
-        });
+        //通过统一创建Component
+        MyApplication.getInstance().getAppComponent().inject(this);
 
 
         httpObject.post();
@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate: httpObject2 " + httpObject2.hashCode());
 
 
-        //也可以使用建造者模式 方便动态修改参数,传递参数
+
 
     }
 }

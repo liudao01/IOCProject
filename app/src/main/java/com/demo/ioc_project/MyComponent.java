@@ -17,4 +17,6 @@ public interface MyComponent {
     //这里的参数不能用多态
     void inject(MainActivity activity);
 
+    void injectSecActivity(SecActivity activity);
+
 } 
