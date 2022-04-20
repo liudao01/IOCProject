@@ -42,8 +42,9 @@ public class MainActivity extends AppCompatActivity {
     B b;
 
 
+    //延迟加载注解
     @Inject
-    Lazy<A> lazy;
+    Lazy<A> lazy;//A是我们定义的对象
     @Inject
     Provider<A> provider;
 
